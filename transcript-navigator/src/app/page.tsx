@@ -79,7 +79,7 @@ export default function TranscriptNavigatorPage() {
 
     try {
       const response = await fetch(
-        "http://localhost:8000/answer",  //https://semantic-navigator-backend.onrender.com/answer
+        "https://semantic-navigator-backend.onrender.com/answer",  //http://localhost:8000/answer
         {
           method: "POST",
           headers: {
