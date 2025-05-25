@@ -19,7 +19,6 @@ import {
   Loader2,
   FileText,
   HelpCircle,
-  Clock,
   UploadCloud,
   AlertCircle,
   Cpu,
@@ -79,17 +78,20 @@ export default function TranscriptNavigatorPage() {
     setResult(null);
 
     try {
-      const response = await fetch("http://localhost:8000/answer", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          transcript,
-          question,
-          method: selectedModel.toLowerCase(),
-        }),
-      });
+      const response = await fetch(
+        "https://semantic-search-app-inbx.onrender.com/answer",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            transcript,
+            question,
+            method: selectedModel.toLowerCase(),
+          }),
+        }
+      );
 
       if (!response.ok) throw new Error("Backend error");
 
@@ -114,15 +116,20 @@ export default function TranscriptNavigatorPage() {
             Transcript Navigator
           </CardTitle>
           <CardDescription className="text-muted-foreground mt-1">
-            Upload a transcript, choose your AI model, ask a question, and find the most relevant chunk.
+            Upload a transcript, choose your AI model, ask a question, and find
+            the most relevant chunk.
           </CardDescription>
         </CardHeader>
         <CardContent className="p-6 space-y-6">
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* File Upload */}
             <div className="space-y-2">
-              <Label htmlFor="transcript-upload" className="flex items-center text-md font-medium text-foreground">
-                <UploadCloud className="mr-2 h-5 w-5 text-primary" /> Upload Transcript File
+              <Label
+                htmlFor="transcript-upload"
+                className="flex items-center text-md font-medium text-foreground"
+              >
+                <UploadCloud className="mr-2 h-5 w-5 text-primary" /> Upload
+                Transcript File
               </Label>
               <Input
                 id="transcript-upload"
@@ -139,8 +146,12 @@ export default function TranscriptNavigatorPage() {
 
             {/* Question Input */}
             <div className="space-y-2">
-              <Label htmlFor="question-input" className="flex items-center text-md font-medium text-foreground">
-                <HelpCircle className="mr-2 h-5 w-5 text-primary" /> Ask Your Question
+              <Label
+                htmlFor="question-input"
+                className="flex items-center text-md font-medium text-foreground"
+              >
+                <HelpCircle className="mr-2 h-5 w-5 text-primary" /> Ask Your
+                Question
               </Label>
               <Textarea
                 id="question-input"
@@ -163,14 +174,22 @@ export default function TranscriptNavigatorPage() {
               >
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="LLM2" id="llm2-model" />
-                  <Label htmlFor="llm2-model" className="font-normal flex items-center">
-                    <Brain className="mr-1.5 h-4 w-4 text-muted-foreground" /> LLM2 Model
+                  <Label
+                    htmlFor="llm2-model"
+                    className="font-normal flex items-center"
+                  >
+                    <Brain className="mr-1.5 h-4 w-4 text-muted-foreground" />{" "}
+                    LLM2 Model
                   </Label>
                 </div>
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="TFIDF" id="tfidf-model" />
-                  <Label htmlFor="tfidf-model" className="font-normal flex items-center">
-                    <FileText className="mr-1.5 h-4 w-4 text-muted-foreground" /> TFIDF Model
+                  <Label
+                    htmlFor="tfidf-model"
+                    className="font-normal flex items-center"
+                  >
+                    <FileText className="mr-1.5 h-4 w-4 text-muted-foreground" />{" "}
+                    TFIDF Model
                   </Label>
                 </div>
               </RadioGroup>
@@ -205,17 +224,22 @@ export default function TranscriptNavigatorPage() {
         {result && (
           <div className="p-6 border-t border-border space-y-6">
             <h3 className="text-xl font-semibold text-primary flex items-center">
-              <FileText className="mr-2 h-6 w-6" /> AI Response ({result.method_used.toUpperCase()})
+              <FileText className="mr-2 h-6 w-6" /> AI Response (
+              {result.method_used.toUpperCase()})
             </h3>
             <div className="w-full p-4 bg-secondary/30 rounded-lg space-y-4">
               <div>
-                <Label className="text-sm font-medium text-muted-foreground mb-1">Relevant Chunk:</Label>
+                <Label className="text-sm font-medium text-muted-foreground mb-1">
+                  Relevant Chunk:
+                </Label>
                 <div className="bg-background p-3 rounded-md text-sm border">
                   {result.chunk}
                 </div>
               </div>
               <div>
-                <Label className="text-sm font-medium text-muted-foreground mb-1">Timestamp:</Label>
+                <Label className="text-sm font-medium text-muted-foreground mb-1">
+                  Timestamp:
+                </Label>
                 <div className="bg-background p-3 rounded-md text-sm border font-mono">
                   {result.timestamp}
                 </div>

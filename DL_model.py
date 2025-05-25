@@ -7,13 +7,15 @@ import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from sentence_transformers import SentenceTransformer
+import os
+import uvicorn  # add this import
 
 app = FastAPI()
 
 # Allow requests from frontend (adjust if deployed)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # or ["http://localhost:3000"] for more control
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -86,3 +88,10 @@ async def get_answer(request: QARequest):
     except Exception as e:
         return {"timestamp": "", "chunk": f"Error: {str(e)}", "method_used": request.method}
 
+if __name__ == "__main__":
+    import sys
+
+    host = os.getenv("HOST", "0.0.0.0")
+    port = int(os.getenv("PORT", 8000))
+
+    uvicorn.run("DL_model:app", host=host, port=port, reload=True)

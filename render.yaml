@@ -2,8 +2,6 @@ services:
   - type: web
     name: semantic-search-fastapi
     env: python
-    buildCommand: ""
-    startCommand: uvicorn DL_model:app --host 0.0.0.0 --port 10000
-    envVars:
-      - key: PORT
-        value: 10000
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn DL_model:app --host 0.0.0.0 --port $PORT
+
